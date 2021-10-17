@@ -404,7 +404,7 @@ public class Neyer {
     }
 
 
-    class Run {
+    public class Run {
         int trial;
         Double value;
         Boolean result;
