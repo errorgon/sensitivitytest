@@ -104,6 +104,10 @@ public class Neyer {
         return (new Run(runList.size() + 1, (muMax + muMin) / 2, null));
     }
 
+    public String getUnits() {
+        return units;
+    }
+
     private void setMinMaxStimuli() {
         for (Run r : runList) {
             maxStimuli = Math.max(r.getValue(), maxStimuli);
