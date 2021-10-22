@@ -32,7 +32,7 @@ public class Neyer {
 
     double[] beta = new double[2];
 
-    int roundDecimals = 2;
+    int precision = 2;
 
     String response = "Linear normal response";
 
@@ -420,10 +420,14 @@ public class Neyer {
 
 
         public Run(int trial, Double value, Boolean result) {
+
             this.trial = trial;
             this.value = value;
             this.result = result;
         }
+
+        public String getUnits() { return Neyer.this.units; }
+        public int getPrecision() { return Neyer.this.precision;}
 
         public int getTrial() { return trial; }
         public void setTrial(int trial) { this.trial = trial; }
