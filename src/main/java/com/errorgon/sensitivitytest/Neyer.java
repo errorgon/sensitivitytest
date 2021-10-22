@@ -403,8 +403,10 @@ public class Neyer {
     }
 
 
-    private double round(double num) {
-        double r = Math.pow(1000, 2);
+    double round(double num) {
+//        int prec = ((int) Math.pow(10, precision));
+//        System.out.println("prec: " + prec);
+        double r = Math.pow(10, precision);
         return Math.round(num * r) / r;
     }
 
