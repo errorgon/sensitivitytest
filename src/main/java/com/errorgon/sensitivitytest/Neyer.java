@@ -404,8 +404,6 @@ public class Neyer {
 
 
     double round(double num) {
-//        int prec = ((int) Math.pow(10, precision));
-//        System.out.println("prec: " + prec);
         double r = Math.pow(10, precision);
         return Math.round(num * r) / r;
     }
@@ -415,7 +413,7 @@ public class Neyer {
     }
 
 
-    public class Run {
+    class Run {
         int trial;
         Double value;
         Boolean result;
