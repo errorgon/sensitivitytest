@@ -32,17 +32,22 @@ public class Neyer {
 
     double[] beta = new double[2];
 
-    int precision = 2;
+    int precision;
 
     String response = "Linear normal response";
 
     ArrayList<Run> runList = new ArrayList<>();
 
     public Neyer(String units, double muMin, double muMax, double sigmaGuess) {
+        this(units, muMin, muMax, sigmaGuess, 2);
+    }
+
+    public Neyer(String units, double muMin, double muMax, double sigmaGuess, int precision) {
         this.units = units;
         this.muMin = muMin;
         this.muMax = muMax;
         this.sigmaGuess = sigmaGuess;
+        this.precision = precision;
     }
 
     public Run getRun() {
