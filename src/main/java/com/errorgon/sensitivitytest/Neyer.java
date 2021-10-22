@@ -1,6 +1,5 @@
 package com.errorgon.sensitivitytest;
 
-
 import com.errorgon.sensitivitytest.math.matrix.doubles.Matrix;
 import com.errorgon.sensitivitytest.math.matrix.doubles.matrixtype.dense.DenseMatrix;
 import com.errorgon.sensitivitytest.math.stats.regression.linear.glm.GLMProblem;
@@ -413,7 +412,7 @@ public class Neyer {
     }
 
 
-    class Run {
+    public class Run {
         int trial;
         Double value;
         Boolean result;
