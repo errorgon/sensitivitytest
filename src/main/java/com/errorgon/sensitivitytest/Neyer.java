@@ -7,8 +7,9 @@ import com.errorgon.sensitivitytest.math.stats.regression.linear.glm.Generalized
 import com.errorgon.sensitivitytest.math.stats.regression.linear.glm.distribution.Binomial;
 import com.errorgon.sensitivitytest.math.stats.regression.linear.glm.distribution.link.Probit;
 import com.errorgon.sensitivitytest.math.vector.doubles.dense.DenseVector;
-import java.util.ArrayList;
 import org.apache.commons.math3.distribution.NormalDistribution;
+
+import java.util.ArrayList;
 
 public class Neyer {
 
@@ -105,7 +106,7 @@ public class Neyer {
     public void setSuccesses(int successes) { this.successes = successes; }
 
     private Run firstRun() {
-        return (new Run(runList.size() + 1, (muMax + muMin) / 2, null));
+        return (new Run(runList.size() + 1, precision((muMax + muMin) / 2), null));
     }
 
     public String getUnits() {
@@ -128,23 +129,23 @@ public class Neyer {
     }
 
     private Run allFailures() {
-        double first = round((muMax + maxStimuli) / 2);   // 25
-        double second = round(maxStimuli - (2 * sigmaGuess));
-        double third = round(( 2 * maxStimuli) - minStimuli); //20
+        double first = precision((muMax + maxStimuli) / 2);   // 25
+        double second = precision(maxStimuli - (2 * sigmaGuess));
+        double third = precision(( 2 * maxStimuli) - minStimuli); //20
 
         return new Run(runList.size() + 1, Math.max(first, Math.max(second, third)), null);
     }
 
     private Run allSuccesses() {
-        double first = round((muMin + minStimuli) / 2);
-        double second = round(minStimuli - (2 * sigmaGuess));
-        double third = round((2 * minStimuli) - maxStimuli);
+        double first = precision((muMin + minStimuli) / 2);
+        double second = precision(minStimuli - (2 * sigmaGuess));
+        double third = precision((2 * minStimuli) - maxStimuli);
 
         return new Run(runList.size() + 1, Math.min(first, Math.min(second, third)), null);
     }
 
     private Run diffSigma() {
-        return new Run(runList.size() + 1, round((maxFailure + minSuccess) / 2), null);
+        return new Run(runList.size() + 1, precision((maxFailure + minSuccess) / 2), null);
     }
 
     private void computeMLE() {
@@ -286,7 +287,7 @@ public class Neyer {
 
         double xNext = muMLE + kstar(matrix) * sigmaMLE;
 
-        return round(xNext);
+        return precision(xNext);
     }
 
     public double[][] yinformat(double mu, double sigma) {
@@ -380,7 +381,7 @@ public class Neyer {
 
 
 
-        return round(xNext);
+        return precision(xNext);
     }
 
     private double determinant(double[][] matrix) {
@@ -401,8 +402,12 @@ public class Neyer {
         return matrix[0][1] / (Math.sqrt(matrix[0][0] * matrix[1][1]));
     }
 
-
     double round(double num) {
+        double r = Math.pow(100000, 2);
+        return Math.round(num * r) / r;
+    }
+
+    double precision(double num) {
         double r = Math.pow(10, precision);
         return Math.round(num * r) / r;
     }
