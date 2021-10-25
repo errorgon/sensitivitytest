@@ -9,7 +9,10 @@ import com.errorgon.sensitivitytest.math.stats.regression.linear.glm.distributio
 import com.errorgon.sensitivitytest.math.vector.doubles.dense.DenseVector;
 import org.apache.commons.math3.distribution.NormalDistribution;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class Neyer {
 
@@ -33,6 +36,7 @@ public class Neyer {
     double[] beta = new double[2];
 
     int precision;
+    String neyerID;
 
     String response = "Linear normal response";
 
@@ -43,12 +47,18 @@ public class Neyer {
     }
 
     public Neyer(String units, double muMin, double muMax, double sigmaGuess, int precision) {
+        this(units, muMin, muMax, sigmaGuess, 2, new SimpleDateFormat().format(new SimpleDateFormat("yyyyMMMdd_HHmm", Locale.getDefault())));
+    }
+
+    public Neyer(String units, double muMin, double muMax, double sigmaGuess, int precision, String neyerID) {
         this.units = units;
         this.muMin = muMin;
         this.muMax = muMax;
         this.sigmaGuess = sigmaGuess;
         this.precision = precision;
+        this.neyerID = neyerID;
     }
+
 
     public Run getRun() {
         // Phase 1
@@ -118,6 +128,14 @@ public class Neyer {
             maxStimuli = Math.max(r.getValue(), maxStimuli);
             minStimuli = Math.min(r.getValue(), minStimuli);
         }
+    }
+
+    public String getNeyerID() {
+        return neyerID;
+    }
+
+    public void setNeyerID(String neyerID) {
+        this.neyerID = neyerID;
     }
 
     private double setMinMaxPassFail() {
