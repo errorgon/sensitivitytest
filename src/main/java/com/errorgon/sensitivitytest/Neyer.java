@@ -396,10 +396,10 @@ public class Neyer {
         }
 
         double mu4 = Math.max(minX, Math.min(mu, maxX));
-        betaMu = mu4;
+        betaMu = precision(mu4);
 
         double sg4 = Math.min(sigma, maxX - minX);
-        betaSig = sg4;
+        betaSig = precision(sg4);
 
         double[][] b = yinformat(mu4, sg4);
 

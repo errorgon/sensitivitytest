@@ -6,7 +6,7 @@
 
     <groupId>errorgon</groupId>
     <artifactId>SensitivityTest</artifactId>
-    <version>1.13-SNAPSHOT</version>
+    <version>1.14-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
