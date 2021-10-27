@@ -34,8 +34,6 @@ public class Neyer {
     double maxFailure = Double.MIN_VALUE;
 
     double[] beta = new double[2];
-    double betaMu;
-    double betaSig;
 
     int precision;
     String neyerID;
@@ -93,8 +91,6 @@ public class Neyer {
             return new Run(runList.size() + 1, (block4()), null);
         } else {
             Run run = new Run(runList.size() + 1, (glmmle()), null);
-            run.setMu(betaMu);
-            run.setSig(betaSig);
             return run;
         }
     }
@@ -356,7 +352,9 @@ public class Neyer {
         return yinformat(muMLE, sigmaMLE);
     }
 
-    private double glmmle() {
+    private double[] glmmle() {
+
+        double[] resultSet = new double[3];
 
         double[][] input = new double[1][runList.size()];
         double[] result = new double[runList.size()];
@@ -382,9 +380,7 @@ public class Neyer {
         beta[1] = instance.beta.betaHat.toArray()[1];
 
         double mu = -instance.beta.betaHat.toArray()[1] / instance.beta.betaHat.toArray()[0];
-        betaMu = mu;
         double sigma = 1 / instance.beta.betaHat.toArray()[0];
-        betaSig = sigma;
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         for (int i = 0; i < input[0].length; i++) {
@@ -397,14 +393,17 @@ public class Neyer {
         }
 
         double mu4 = Math.max(minX, Math.min(mu, maxX));
+        resultSet[1] = mu4;
 
         double sg4 = Math.min(sigma, maxX - minX);
+        resultSet[2] = sg4;
 
         double[][] b = yinformat(mu4, sg4);
 
         double xNext = mu4 + kstar(b) * sg4;
+        resultSet[0] = xNext;
 
-        return precision(xNext);
+        return resultSet;
     }
 
     private double determinant(double[][] matrix) {
@@ -443,17 +442,21 @@ public class Neyer {
         int trial;
         Double value;
         Boolean result;
-        double betaMu;
-        double betaSig;
+        double mu;
+        double sig;
 
         double k = 0;
         double p = 0;
         double z = 0;
         double v = 0;
 
+        public Run(int trial, double[] value, Boolean result) {
+            this(trial, value[0], result);
+            value[1] = mu;
+            value[2] = sig;
+        }
 
         public Run(int trial, Double value, Boolean result) {
-
             this.trial = trial;
             this.value = value;
             this.result = result;
@@ -471,11 +474,11 @@ public class Neyer {
         public Boolean getResult() { return result; }
         public void setResult(Boolean result) { this.result = result; }
 
-        public double getMu() { return betaMu; }
-        public void setMu(double betaMu) { this.betaMu = betaMu; }
+        public double getMu() { return mu; }
+        public void setMu(double betaMu) { this.mu = betaMu; }
 
-        public double getSig() { return betaSig; }
-        public void setSig(double betaSig) { this.betaSig = betaSig; }
+        public double getSigma() { return sig; }
+        public void setSig(double betaSig) { this.sig = betaSig; }
 
         @Override
         public String toString() {
