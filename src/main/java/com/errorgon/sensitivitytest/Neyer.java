@@ -92,7 +92,10 @@ public class Neyer {
         if (sigmaMLE == 0) {
             return new Run(runList.size() + 1, (block4()), null);
         } else {
-            return new Run(runList.size() + 1, (glmmle()), null);
+            Run run = new Run(runList.size() + 1, (glmmle()), null);
+            run.setMu(betaMu);
+            run.setSig(betaSig);
+            return run;
         }
     }
 
@@ -436,18 +439,12 @@ public class Neyer {
         return beta;
     }
 
-    public double getBetaMu() {
-        return betaMu;
-    }
-
-    public double getBetaSig() {
-        return betaSig;
-    }
-
     public class Run {
         int trial;
         Double value;
         Boolean result;
+        double betaMu;
+        double betaSig;
 
         double k = 0;
         double p = 0;
@@ -473,6 +470,12 @@ public class Neyer {
 
         public Boolean getResult() { return result; }
         public void setResult(Boolean result) { this.result = result; }
+
+        public double getMu() { return betaMu; }
+        public void setMu(double betaMu) { this.betaMu = betaMu; }
+
+        public double getSig() { return betaSig; }
+        public void setSig(double betaSig) { this.betaSig = betaSig; }
 
         @Override
         public String toString() {
