@@ -34,6 +34,8 @@ public class Neyer {
     double maxFailure = Double.MIN_VALUE;
 
     double[] beta = new double[2];
+    double betaMu;
+    double betaSig;
 
     int precision;
     String neyerID;
@@ -377,7 +379,9 @@ public class Neyer {
         beta[1] = instance.beta.betaHat.toArray()[1];
 
         double mu = -instance.beta.betaHat.toArray()[1] / instance.beta.betaHat.toArray()[0];
+        betaMu = mu;
         double sigma = 1 / instance.beta.betaHat.toArray()[0];
+        betaSig = sigma;
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         for (int i = 0; i < input[0].length; i++) {
@@ -396,8 +400,6 @@ public class Neyer {
         double[][] b = yinformat(mu4, sg4);
 
         double xNext = mu4 + kstar(b) * sg4;
-
-
 
         return precision(xNext);
     }
@@ -434,6 +436,13 @@ public class Neyer {
         return beta;
     }
 
+    public double getBetaMu() {
+        return betaMu;
+    }
+
+    public double getBetaSig() {
+        return betaSig;
+    }
 
     public class Run {
         int trial;
