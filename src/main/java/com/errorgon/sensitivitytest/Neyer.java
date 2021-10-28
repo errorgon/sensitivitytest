@@ -49,7 +49,7 @@ public class Neyer {
     }
 
     public Neyer(String units, double muMin, double muMax, double sigmaGuess, int precision) {
-        this(units, muMin, muMax, sigmaGuess, 2, new SimpleDateFormat().format(new SimpleDateFormat("yyyyMMMdd_HHmm", Locale.getDefault())));
+        this(units, muMin, muMax, sigmaGuess, precision, "test");
     }
 
     public Neyer(String units, double muMin, double muMax, double sigmaGuess, int precision, String neyerID) {
@@ -89,12 +89,13 @@ public class Neyer {
 //        computeMLE();
 
         // If Sigma == 0, refine estimate of sigma
-        if (sigmaMLE == 0) {
-            return new Run(runList.size() + 1, (block4()), null);
+        if (diff >= 0) {
+            Neyer.Run run = new Run(runList.size() + 1, (block4()), null);
+            run.setMu(muMLE);
+            run.setMu(sigmaMLE);
+            return run;
         } else {
             Run run = new Run(runList.size() + 1, (glmmle()), null);
-            run.setMu(betaMu);
-            run.setSig(betaSig);
             return run;
         }
     }
@@ -168,7 +169,10 @@ public class Neyer {
     }
 
     private Run diffSigma() {
-        return new Run(runList.size() + 1, precision((maxFailure + minSuccess) / 2), null);
+        Neyer.Run run = new Run(runList.size() + 1, precision((maxFailure + minSuccess) / 2), null);
+        run.setMu(muMLE);
+        run.setSig(sigmaMLE);
+        return run;
     }
 
     private void computeMLE() {
@@ -358,7 +362,6 @@ public class Neyer {
 
     private double glmmle() {
 
-
         double[][] input = new double[1][runList.size()];
         double[] result = new double[runList.size()];
 
@@ -478,7 +481,8 @@ public class Neyer {
 
         @Override
         public String toString() {
-            return "Trial# " + trial + " Value: " + value + " Result: " + result;
+            return "Trial# " + trial + "\tValue: " + value + "\t\tResult: " + result + "\tMu: " + mu + "\tsigma: " + sig;
+
         }
     }
 
