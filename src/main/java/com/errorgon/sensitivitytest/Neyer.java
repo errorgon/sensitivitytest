@@ -96,8 +96,11 @@ public class Neyer {
             return run;
         } else {
             Run run = new Run(runList.size() + 1, (glmmle()), null);
+            run.setMu(muMLE);
+            run.setMu(sigmaMLE);
             return run;
         }
+
     }
 
     public void setRun(int trial, Double value, Boolean result) {
